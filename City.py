@@ -64,10 +64,6 @@ class Schoolboy(Human):
         self._grade = grade             # Атрибут - Класс
         self._performance = performance # Атрибут - Успеваемость
         self._school_number = school_number # Атрибут - номер школы
-	
-    def info(self):
-        '''Надо завершить'''
-        pass
 
     def get_grade(self):
         return self._grade	
@@ -87,16 +83,47 @@ class Schoolboy(Human):
     def set_school_number(self, s_number):
         self._school_number = s_number
 
+    def study(self, subject = "математика"):
+        """Метод учения. Один параметр - учебный предмет"""
+        print(self._name, "учит предмет", subject)
+
+    def make_home_work(self):
+        print(self._name, "выполняет домашнее задание")
+    
+    def info(self):
+        print("Меня зовут {}, мне {}, я учусь в {}-м классе, я {}.".format(self._name, self._age, self._grade, self._performance))
+
+
+class Programmer(Human):
+    def __init__(self, name, age, level, favorite_lang):
+        super().__init__(name, age)
+        self._level = level
+        self._favorite_lang = favorite_lang
+
+    def get_level(self):
+        return self._level
+    
+    def set_level(self, level):
+        self._level = level
+
+    def get_favorite_lang(self):
+        return self._favorite_lang
+    
+    def set_favorite_lang(self, favorite_lang):
+        self._favorite_lang = favorite_lang
+
 
 
 if __name__ == '__main__':
-	Dima = Student("Дмитрий", 21, 3)
-	Ahmad = Student("Ахмад", 20, 2)
-	Jhon = Student("Джон", 19, 1)
+    Dima = Student("Дмитрий", 21, 3)
+    Ahmad = Student("Ахмад", 20, 2)
+    Jhon = Student("Джон", 19, 1)
 
-	Dima.info()
-	Ahmad.info()
-	Jhon.info()
+    Dima.info()
+    Ahmad.info()
+    Jhon.info()
 
-	Ali = Schoolboy("Али", 14, 8, 5, 3)
-	print(Ali.get_age())
+    Ali = Schoolboy("Али", 14, 8, "отличник", 3)
+    print(Ali.get_age())
+
+    Ali.info()
