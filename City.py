@@ -1,3 +1,5 @@
+from Gui import *
+
 class Human:
 #Класс "Человек
 	def __init__(self, name, age):
@@ -113,6 +115,21 @@ class Programmer(Human):
         self._favorite_lang = favorite_lang
 
 
+class Doctors(Human):
+    def __init__(self, name, age, kind):
+        super().__init__(name, age)
+        self._kind = kind
+
+    def get_kind(self):
+        return self._kind
+
+    def set_kind(self, kind):
+        self._kind = kind
+
+    def health(self, human):
+        print("Дкотор", _name, "лечит", human.get_name())
+
+
 
 if __name__ == '__main__':
     Dima = Student("Дмитрий", 21, 3)
@@ -124,6 +141,7 @@ if __name__ == '__main__':
     Jhon.info()
 
     Ali = Schoolboy("Али", 14, 8, "отличник", 3)
-    print(Ali.get_age())
 
+    print(Ali.get_age())    
     Ali.info()
+    root.mainloop()
