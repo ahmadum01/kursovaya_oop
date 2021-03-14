@@ -8,6 +8,7 @@ from PIL import Image, ImageTk
 class App(Tk):
     def __init__(self):
         super().__init__()
+        # Cоздание главного экрана
         self.wm_state("zoomed")
         self.title("Виселица")
         self.call('tk', 'scaling', 2.0)
@@ -25,9 +26,24 @@ class App(Tk):
         # Счетчик
         self.count = 0
         # Список слов    
-        self.all_words = ["программа", "питон", "переменная", "функция", "класс", "метод", "объект", "атрибут","список","массив"]
+        self.all_words = {"программа":"программирование",
+             "питон":"программирование",
+              "переменная":"программирование", 
+              "функция":"программирование", 
+              "класс":"программирование", 
+              "метод":"программирование", 
+              "объект":"программирование", 
+              "атрибут":"программирование",
+              "список":"программирование",
+              "массив":"программирование",
+              "кот":"животные",
+              "собака":"животные",
+              "лев":"животные",
+              "шакал":"животные",
+              "махачкала":"города",
+              "москва":"города"}
         # Слово
-        self.word = random.choice(self.all_words).upper()
+        self.word = random.choice(list(self.all_words.keys())).upper()
         # Фрейм слова
         self.word_frame = Frame(self, bd=3, bg="black")
         self.word_frame.place(relx=0.5, rely=0.6, anchor="center")
@@ -63,10 +79,12 @@ class App(Tk):
         # Создание счетчика
         self.score = Counter(self, "ОЧКИ", self.pixelVirtual)
         self.score.place(100, 140, 1, 0)
+        # Подвотка к слову - тема
+        self.topic = Label(self, text = "Тема: "+ self.all_words[self.word.lower()], font="Tahoma 20", bg='black', fg="white")
+        self.topic.place(relx = 0.5, rely=0.02, anchor=CENTER)
 
     def gallows(self):
         '''Рисует виселицу'''
-        self.canvas.delete(self.gallows_,self.rope_)
         self.canvas.delete(self.gallows_,self.rope_)
         self.gallows_ = self.canvas.create_line(self.root_w/2-self.root_w/32, self.root_h/2 - self.root_h/40,
             self.root_w/2 - self.root_w/10-self.root_w/32, self.root_h/2 - self.root_h/40, 
@@ -163,13 +181,14 @@ class App(Tk):
                 i.unbind("<Button-1>")
 
     def reset(self, event):
-        '''Перезагружет игру'''
+        '''Перезагружает игру'''
         for i in self.letters:
             i.frame.grid_forget()
             i.label.place_forget()
-        forget("a", *self.buttons)
+        self.forget("a", *self.buttons)
         self.word_frame.place_forget()
         self.change_word()
+        self.topic['text'] = "Тема: "+ self.all_words[self.word.lower()]
         self.word_frame = Frame(self, bd=3, bg="black")
         self.word_frame.place(relx=0.5, rely=0.6, anchor="center")
 
@@ -190,7 +209,8 @@ class App(Tk):
 
     def change_word(self):
         '''Меняет слово'''
-        self.word = random.choice(self.all_words).upper()
+        self.word = random.choice(list(self.all_words.keys())).upper()
+    
 
     def isWin(self):
         '''Проверяет угадано ли слово'''
@@ -204,7 +224,6 @@ class App(Tk):
         if self.count == 7:
             return True
 
-
     def push(self, event):
         '''Удаляет использованные клавиши с буквами'''
         event.widget.grid_forget()
@@ -212,6 +231,18 @@ class App(Tk):
 
     def wanish(self):
         self.canvas.delete(self.gallows_,self.rope_, self.head_, self.l_leg_, self.r_leg_, self.body_, self.r_hand_, self.l_hand_)
+
+    def forget(self, kind, *a):
+        """Очищает окно от выбранных виджетов"""
+        if kind == 'Pack':
+            for i in a:
+                i.pack_forget()
+        elif kind == 'Place':
+            for i in a:
+                i.place_forget()
+        else:
+            for i in a:
+                i.grid_forget()
 
 
 class Letter():
@@ -256,19 +287,6 @@ class Counter():
     def reset(self):
         self.value = 0
         self.label['text'] = str(self.value)
-
-
-def forget(kind, *a):
-    """Очищает окно от выбранных виджетов"""
-    if kind == 'Pack':
-        for i in a:
-            i.pack_forget()
-    elif kind == 'Place':
-        for i in a:
-            i.place_forget()
-    else:
-        for i in a:
-            i.grid_forget()
 
 
 
